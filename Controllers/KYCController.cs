@@ -5,6 +5,7 @@ using Server.Data;
 using Server.Models;
 using Server.Services;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace Server.Controllers
 {

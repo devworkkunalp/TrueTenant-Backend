@@ -27,7 +27,7 @@ namespace Server.Models
         public string? Address { get; set; }
 
         // API response tracking
-        public string? ApiClientId { get; set; } // For OTP flow
-        public string? ApiResponse { get; set; } // Store full API response (for debugging)
+        public string? ApiClientId { get; set; } // For API tracking
+        public string? ApiResponse { get; set; } // Store raw JSON response
     }
 }
