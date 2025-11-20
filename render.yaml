@@ -1,0 +1,23 @@
+# Render Deployment Configuration
+# This file is used by Render to configure your service
+
+# Service Type: Web Service
+# Environment: Docker
+# Build Command: (automatic with Dockerfile)
+# Start Command: (automatic with Dockerfile ENTRYPOINT)
+
+# Required Environment Variables (Set in Render Dashboard):
+# 
+# ConnectionStrings__DefaultConnection=<Your_Render_PostgreSQL_Connection_String>
+# Jwt__Key=<Strong_Secret_Key_Min_64_Characters>
+# Jwt__Issuer=TrueTenantAPI
+# Jwt__Audience=TrueTenantClient
+# ASPNETCORE_ENVIRONMENT=Production
+# AadhaarAPI__Enabled=false
+# AadhaarAPI__BaseUrl=https://sandbox.surepass.io/api/v1
+# AadhaarAPI__ApiKey=<Your_API_Key>
+
+# Health Check Path: /api/health (if you add a health endpoint)
+# Port: 8080 (configured in Dockerfile)
+
+# Auto-Deploy: Yes (on push to main branch)

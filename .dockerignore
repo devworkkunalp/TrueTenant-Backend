@@ -1,0 +1,22 @@
+# Ignore build artifacts
+bin/
+obj/
+*.user
+*.suo
+
+# Ignore database files
+*.db
+*.db-shm
+*.db-wal
+
+# Ignore logs
+*.log
+
+# Ignore environment files
+.env
+appsettings.Development.json
+
+# Ignore IDE files
+.vs/
+.vscode/
+.idea/
