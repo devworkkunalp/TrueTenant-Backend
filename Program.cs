@@ -12,6 +12,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApi();
 
+// Add Swagger/OpenAPI support
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new() { 
+        Title = "TrueTenant API", 
+        Version = "v1",
+        Description = "Property Management Platform API with KYC Verification"
+    });
+});
+
 // Database Context
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -40,18 +50,28 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",
         builder => builder
-            .WithOrigins("http://localhost:5173", "http://localhost:5174") // Adjust if your React app runs on a different port
+            .WithOrigins(
+                "http://localhost:5173", 
+                "http://localhost:5174",
+                "https://agent-691ec8a2f8d3b88--effervescent-melba-26327d.netlify.app"
+            )
             .AllowAnyMethod()
-            .AllowAnyHeader());
+            .AllowAnyHeader()
+            .AllowCredentials());
 });
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Enable Swagger in all environments for API documentation
+app.MapOpenApi();
+
+// Enable Swagger UI
+app.UseSwaggerUI(options =>
 {
-    app.MapOpenApi();
-}
+    options.SwaggerEndpoint("/openapi/v1.json", "TrueTenant API v1");
+    options.RoutePrefix = "swagger"; // Access at /swagger
+});
 
 app.UseHttpsRedirection();
 
