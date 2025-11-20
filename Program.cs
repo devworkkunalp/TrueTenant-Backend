@@ -8,17 +8,40 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddOpenApi();
-
-// Add Swagger/OpenAPI support
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { 
         Title = "TrueTenant API", 
         Version = "v1",
         Description = "Property Management Platform API with KYC Verification"
+    });
+    
+    // Add JWT Authentication support in Swagger
+    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        Name = "Authorization",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
     });
 });
 
@@ -64,13 +87,11 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 // Enable Swagger in all environments for API documentation
-app.MapOpenApi();
-
-// Enable Swagger UI
-app.UseSwaggerUI(options =>
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    options.SwaggerEndpoint("/openapi/v1.json", "TrueTenant API v1");
-    options.RoutePrefix = "swagger"; // Access at /swagger
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "TrueTenant API v1");
+    c.RoutePrefix = "swagger"; // Access at /swagger
 });
 
 app.UseHttpsRedirection();
