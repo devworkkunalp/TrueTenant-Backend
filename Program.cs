@@ -53,7 +53,7 @@ builder.Services.AddCors(options =>
             .WithOrigins(
                 "http://localhost:5173", 
                 "http://localhost:5174",
-                "https://agent-691ec8a2f8d3b88--effervescent-melba-26327d.netlify.app"
+                "https://effervescent-melba-26327d.netlify.app"
             )
             .AllowAnyMethod()
             .AllowAnyHeader()
