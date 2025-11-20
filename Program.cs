@@ -73,11 +73,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",
         builder => builder
-            .WithOrigins(
-                "http://localhost:5173", 
-                "http://localhost:5174",
-                "https://effervescent-melba-26327d.netlify.app"
-            )
+            .SetIsOriginAllowed(_ => true) // Allow any origin
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials());
@@ -86,6 +82,8 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseCors("AllowReactApp"); // Move CORS to the top
+
 // Enable Swagger in all environments for API documentation
 app.UseSwagger();
 app.UseSwaggerUI(c =>
@@ -95,8 +93,6 @@ app.UseSwaggerUI(c =>
 });
 
 app.UseHttpsRedirection();
-
-app.UseCors("AllowReactApp");
 
 app.UseAuthentication();
 app.UseAuthorization();
